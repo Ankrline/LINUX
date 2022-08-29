@@ -1,0 +1,69 @@
+- Primeira excluir diretorios existentes na maquina virtual, deve estar logado em root:
+
+root@servidor:/# ls -l
+root@servidor:/# rm - Rf/(nome do diretorio)
+
+- Excluir usuarios e suas pastas:
+
+root@servidor:/# cat /etc/passwd
+root@servidor:/# userdel --help
+root@servidor:/# userdel -r (usuario que vai excluir)
+
+- Excluir grupos:
+
+root@servidor:/# cat /etc/group
+root@servidor:/# groupdel -r (grupo que vai excluir)
+
+root@servidor:/# cd /scripts/
+root@servidor:/scripts# nano iac1.sh
+
+#!/bin/bash
+echo "Criando diretorios..."
+
+.mkdir /publico
+.mkdir /adm
+.mkdir /ven
+.mkdir /sec
+
+echo "Criando grupos de usuários..."
+
+gruopadd GRP_ADM
+gruopadd GRP_VEN
+gruopadd GRP_SEC
+
+echo "Criando usuários..."
+
+useradd carlos -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_ADM
+useradd maria -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_ADM
+useradd jose -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_ADM
+
+useradd debora -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_VEN
+useradd sebastiana -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_VEN
+useradd roberto -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_VEN
+
+useradd josefina -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_SEC
+useradd amanda -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_SEC
+useradd rogerio -m -s /bin/bash -p $(openssl passwd -crypt Senha123) -G GRP_SEC
+
+echo "Especificando permições dos diretorios..."
+
+chown root:GRP_ADM /adm
+chown root:GRP_VEN /ven
+chown root:GRP_SEC /sec
+
+chown root:770 /adm
+chown root:770 /ven
+chown root:770 /sec
+chown root:777 /publico
+
+echo "Fim.."
+
+CTRL O + ENTER
+CTRL X
+
+root@servidor:/scripts# chmod +x iac1.sh
+root@servidor:/scripts# ./iac1.sh
+
+
+
+

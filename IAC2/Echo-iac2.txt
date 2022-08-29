@@ -1,0 +1,31 @@
+root@servidor:~# cd /
+root@servidor:# ls
+root@servidor:# mkdir /scripts2
+root@servidor:# cd /scripts2
+root@servidor:# ls
+root@servidor:# nano script-iac2.sh
+
+#!/bin/bash
+
+echo "Atualizando o servidor..."
+apt-get update
+apt-get upgrade -y
+apt-get install apache2 -y
+apt-get install unzip -y
+
+
+echo "Baixando e copiando os arquivos da aplicação..."
+
+cd /tmp
+wget https://github.com/denilsonbonatti/linux-site-dio/archive/refs/heads/main.zip
+unzip main.zip
+cd linux-site-dio-main
+cp -R * /var/www/html/
+
+CTRL O
+CTRL X
+
+root@servidor:scripts2# ls -1
+root@servidor:scripts2# shmod +x script-iac2.sh
+root@servidor:scripts2# ./script-iac2.sh
+
